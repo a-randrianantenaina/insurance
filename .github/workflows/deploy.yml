@@ -1,0 +1,69 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install SSHpass
+        run: sudo apt-get install -y sshpass
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Deploy via SSH
+        run: |
+          sshpass -p 'Nantenaina97' ssh -o StrictHostKeyChecking=no augustin@194.163.187.61 << 'EOF'
+            set -e  # Arrêter si une commande échoue
+
+            echo "Connexion SSH réussie"
+
+            cd /var/www/augustin/insurance
+
+            echo "Pull du dernier code"
+            git fetch origin
+            git reset --hard origin/main
+
+            echo "Chargement de NVM"
+            export NVM_DIR="$HOME/.nvm"
+            if [ ! -d "$NVM_DIR" ]; then
+              curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash
+            fi
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+            echo "Installation Node LTS"
+            nvm install --lts
+            nvm use --lts
+
+            echo "Installation PM2 si nécessaire"
+            if ! command -v pm2 &> /dev/null; then
+              npm install -g pm2
+            fi
+
+            echo "Nettoyage des anciens fichiers"
+            rm -rf node_modules .next
+
+            echo "Installation des dépendances"
+            npm install --legacy-peer-deps
+
+            echo "Installation des dépendances"
+            npx prisma migrate deploy
+
+            echo "Build de l'application"
+            npm run build
+
+            echo "Démarrage ou redémarrage via PM2"
+            pm2 restart call-app || pm2 start "npm run start -- --port 5000" --name 'call-app'
+
+            echo "Déploiement terminé avec succès"
+          EOF
