@@ -63,7 +63,7 @@ jobs:
             npm run build
 
             echo "Démarrage ou redémarrage via PM2"
-            pm2 restart call-app || pm2 start "npm run start -- --port 5000" --name 'call-app'
+            pm2 restart insurance || pm2 start "npm run start -- --port 5000" --name 'insurance'
 
             echo "Déploiement terminé avec succès"
           EOF
