@@ -67,11 +67,9 @@ export function Navigation() {
             </Link>
           </div>
           <div className="flex flex-1 items-center justify-end space-x-4">
+            {/* loading spinner color */}
             <motion.div 
-              className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-blue-600"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
+              className="h-8 w-8 animate-spin rounded-full border-2 border-muted border-t-[hsl(var(--primary))]"
             />
           </div>
         </div>
@@ -95,10 +93,10 @@ export function Navigation() {
         >
           <Link href="/" className="flex items-center space-x-2">
             <motion.span 
-              className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+              className="text-3xl font-bold bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(var(--accent))] bg-clip-text text-transparent"
               whileHover={{ 
                 scale: 1.05,
-                textShadow: "0px 0px 8px rgba(59, 130, 246, 0.5)"
+                textShadow: "0px 0px 8px hsl(var(--primary) / 0.4)"
               }}
               transition={{ duration: 0.2 }}
             >
@@ -136,15 +134,16 @@ export function Navigation() {
                   <Link 
                     href={item.href} 
                     className={`relative text-sm font-medium transition-colors group ${
-                      isActive ? "text-primary" : "hover:text-primary"
+                      isActive ? "text-[hsl(var(--primary))]" : "text-muted-foreground hover:text-[hsl(var(--primary))]"
                     }`}
                   >
                     {item.label}
                     <motion.div
-                      className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600"
+                      className="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(var(--accent))] rounded-full"
                       initial={{ width: isActive ? "100%" : 0 }}
                       whileHover={{ width: "100%" }}
-                      transition={{ duration: 0.2 }}
+                      animate={{ width: isActive ? "100%" : 0 }}
+                      transition={{ duration: 0.25 }}
                     />
                   </Link>
                 </motion.div>
@@ -309,7 +308,9 @@ export function Navigation() {
                     <Link
                       href={item.href}
                       className={`block px-3 py-2 text-base font-medium rounded-md transition-colors ${
-                        isActive ? "bg-accent text-primary" : "hover:bg-accent"
+                        isActive
+                          ? "bg-[hsl(var(--accent))] text-[hsl(var(--accent-foreground))]"
+                          : "text-foreground/80 hover:bg-[hsl(var(--accent)/0.6)] hover:text-foreground"
                       }`}
                       onClick={() => setIsMenuOpen(false)}
                     >
