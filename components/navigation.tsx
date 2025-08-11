@@ -34,6 +34,14 @@ export function Navigation() {
     width: 0,
   });
 
+  // Nouvelle logique pour empêcher la ré-exécution des animations d'entrée après le premier rendu
+  const hasPlayedEntranceRef = useRef(false);
+  const playEntranceAnimations = !hasPlayedEntranceRef.current;
+  useEffect(() => {
+    hasPlayedEntranceRef.current = true;
+  }, []);
+  const initialAnim = (v: any) => (playEntranceAnimations ? v : false);
+
   // Debug logging
   useEffect(() => {
     console.log("Session status:", status);
@@ -127,14 +135,14 @@ export function Navigation() {
     <motion.nav
       ref={navRef}
       className="relative sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md"
-      initial={{ y: -100 }}
+      initial={initialAnim({ y: -100 })}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <div className="container mx-auto flex h-16 items-center px-4">
         <motion.div
           className="flex items-center"
-          initial={{ opacity: 0, x: -20 }}
+          initial={initialAnim({ opacity: 0, x: -20 })}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
@@ -154,13 +162,13 @@ export function Navigation() {
 
         <motion.div
           className="flex flex-1 items-center justify-center space-x-4"
-          initial={{ opacity: 0 }}
+          initial={initialAnim({ opacity: 0 })}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
           <motion.div
             className="hidden items-center space-x-8 md:flex"
-            initial={{ opacity: 0 }}
+            initial={initialAnim({ opacity: 0 })}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
@@ -169,7 +177,7 @@ export function Navigation() {
               return (
                 <motion.div
                   key={item.href}
-                  initial={{ opacity: 0, y: -10 }}
+                  initial={initialAnim({ opacity: 0, y: -10 })}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
                 >
@@ -192,7 +200,7 @@ export function Navigation() {
 
         <motion.div
           className="flex items-center space-x-4"
-          initial={{ opacity: 0, x: 20 }}
+          initial={initialAnim({ opacity: 0, x: 20 })}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
         >
@@ -278,7 +286,7 @@ export function Navigation() {
           {/* Menu mobile */}
           <motion.div
             className="md:hidden"
-            initial={{ opacity: 0 }}
+            initial={initialAnim({ opacity: 0 })}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3, delay: 0.7 }}
           >
@@ -322,14 +330,14 @@ export function Navigation() {
         {isMenuOpen && (
           <motion.div
             className="border-t md:hidden"
-            initial={{ opacity: 0, height: 0 }}
+            initial={{ opacity: 0, height: 0 }} // conserve animations d'ouverture du menu (interaction volontaire)
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
             <motion.div
               className="space-y-1 px-4 pb-3 pt-2"
-              initial={{ opacity: 0 }}
+              initial={initialAnim({ opacity: 0 })}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2, delay: 0.1 }}
@@ -339,7 +347,7 @@ export function Navigation() {
                 return (
                   <motion.div
                     key={item.href}
-                    initial={{ opacity: 0, x: -20 }}
+                    initial={initialAnim({ opacity: 0, x: -20 })}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.2, delay: index * 0.05 }}

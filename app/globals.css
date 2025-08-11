@@ -4,27 +4,27 @@
 
 @layer base {
   :root {
-    --background: 45 20% 97%;          /* Very light warm beige */
-    --foreground: 30 15% 15%;          /* Dark brown for text */
-    --card: 42 25% 95%;                /* Light beige for cards */
-    --card-foreground: 30 15% 15%;     /* Dark brown */
-    --popover: 42 25% 95%;             /* Light beige */
-    --popover-foreground: 30 15% 15%;  /* Dark brown */
-    --primary: 35 45% 55%;             /* Medium warm beige/brown */
-    --primary-foreground: 45 20% 97%;  /* Light beige for text on primary */
-    --secondary: 40 20% 88%;           /* Slightly darker beige */
-    --secondary-foreground: 30 15% 25%; /* Dark brown */
-    --muted: 40 15% 90%;               /* Muted beige */
-    --muted-foreground: 30 10% 45%;    /* Medium brown */
-    --accent: 38 30% 85%;              /* Accent beige */
-    --accent-foreground: 30 15% 25%;   /* Dark brown */
-    --destructive: 0 84% 60%;          /* Keep red for destructive actions */
-    --destructive-foreground: 0 0% 98%; /* White text */
-    --border: 40 15% 85%;              /* Light beige borders */
-    --input: 40 15% 85%;               /* Input borders */
-    --ring: 35 45% 55%;                /* Focus ring - same as primary */
-    --radius: 0.5rem;
-    --chart-1: 35 70% 50%;             /* Beige chart colors */
+    --background: 45 20% 97%;
+    --foreground: 30 15% 15%;
+    --card: 42 25% 95%;
+    --card-foreground: 30 15% 15%;
+    --popover: 42 25% 95%;
+    --popover-foreground: 30 15% 15%;
+    --primary: 35 45% 55%;
+    --primary-foreground: 45 20% 97%;
+    --secondary: 40 20% 88%;
+    --secondary-foreground: 30 15% 25%;
+    --muted: 40 15% 90%;
+    --muted-foreground: 30 10% 45%;
+    --accent: 38 30% 85%;
+    --accent-foreground: 30 15% 25%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 40 15% 85%;
+    --input: 40 15% 85%;
+    --ring: 35 45% 55%;
+    --radius: 0.3rem;
+    --chart-1: 35 70% 50%;
     --chart-2: 40 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 45 65% 60%;
@@ -32,26 +32,26 @@
   }
 
   .dark {
-    --background: 30 15% 8%;           /* Dark brown background */
-    --foreground: 45 20% 90%;          /* Light beige text */
-    --card: 30 15% 10%;                /* Dark brown cards */
-    --card-foreground: 45 20% 90%;     /* Light beige */
-    --popover: 30 15% 10%;             /* Dark brown */
-    --popover-foreground: 45 20% 90%;  /* Light beige */
-    --primary: 35 45% 65%;             /* Lighter beige for dark mode */
-    --primary-foreground: 30 15% 8%;   /* Dark background */
-    --secondary: 30 15% 15%;           /* Dark beige */
-    --secondary-foreground: 45 20% 90%; /* Light beige */
-    --muted: 30 15% 12%;               /* Muted dark beige */
-    --muted-foreground: 45 15% 65%;    /* Medium beige */
-    --accent: 30 15% 15%;              /* Dark accent */
-    --accent-foreground: 45 20% 90%;   /* Light beige */
-    --destructive: 0 62% 50%;          /* Darker red */
-    --destructive-foreground: 0 0% 98%; /* White text */
-    --border: 30 15% 15%;              /* Dark borders */
-    --input: 30 15% 15%;               /* Dark input borders */
-    --ring: 35 45% 65%;                /* Focus ring */
-    --chart-1: 35 70% 60%;             /* Beige chart colors for dark mode */
+    --background: 30 15% 8%;
+    --foreground: 45 20% 90%;
+    --card: 30 15% 10%;
+    --card-foreground: 45 20% 90%;
+    --popover: 30 15% 10%;
+    --popover-foreground: 45 20% 90%;
+    --primary: 35 45% 65%;
+    --primary-foreground: 30 15% 8%;
+    --secondary: 30 15% 15%;
+    --secondary-foreground: 45 20% 90%;
+    --muted: 30 15% 12%;
+    --muted-foreground: 45 15% 65%;
+    --accent: 30 15% 15%;
+    --accent-foreground: 45 20% 90%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 30 15% 15%;
+    --input: 30 15% 15%;
+    --ring: 35 45% 65%;
+    --chart-1: 35 70% 60%;
     --chart-2: 40 60% 55%;
     --chart-3: 30 80% 65%;
     --chart-4: 45 65% 70%;
