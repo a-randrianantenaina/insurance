@@ -1,53 +1,101 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { useSession, signOut } from "next-auth/react"
-import { Button } from "@/components/ui/button"
-import { Shield, Menu, X, User, LogOut } from "lucide-react"
-import { useState, useEffect } from "react"
-import { NotificationCenter } from "@/components/notifications/notification-center"
+import { NotificationCenter } from "@/components/notifications/notification-center";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { motion, AnimatePresence } from "framer-motion"
-import { usePathname } from "next/navigation"
+} from "@/components/ui/dropdown-menu";
+import { AnimatePresence, motion } from "framer-motion";
+import { LogOut, Menu, Shield, User, X } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 export function Navigation() {
-  const { data: session, status } = useSession()
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const pathname = usePathname()
+  const { data: session, status } = useSession();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const linkItems = [
+    { href: "/offres", label: "Nos Offres" },
+    { href: "/simulation", label: "Simulation" },
+    { href: "/about", label: "À Propos" },
+    { href: "/contact", label: "Contact" },
+  ];
+  const navRef = useRef<HTMLElement | null>(null);
+  const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const [indicator, setIndicator] = useState<{ left: number; width: number }>({
+    left: 0,
+    width: 0,
+  });
 
   // Debug logging
   useEffect(() => {
-    console.log("Session status:", status)
-    console.log("Session data:", session)
-  }, [session, status])
+    console.log("Session status:", status);
+    console.log("Session data:", session);
+  }, [session, status]);
 
   const getInitials = (name: string) => {
     return name
       .split(" ")
       .map((n) => n[0])
       .join("")
-      .toUpperCase()
-  }
+      .toUpperCase();
+  };
 
   const handleSignOut = async () => {
     try {
-      await signOut({ callbackUrl: "/" })
+      await signOut({ callbackUrl: "/" });
     } catch (error) {
-      console.error("Erreur lors de la déconnexion:", error)
+      console.error("Erreur lors de la déconnexion:", error);
     }
-  }
+  };
+
+  useEffect(() => {
+    const activeIndex = linkItems.findIndex((i) => i.href === pathname);
+    if (activeIndex === -1) {
+      setIndicator({ left: 0, width: 0 });
+      return;
+    }
+    const el = linkRefs.current[activeIndex];
+    const navEl = navRef.current;
+    if (el && navEl) {
+      const elRect = el.getBoundingClientRect();
+      const navRect = navEl.getBoundingClientRect();
+      setIndicator({
+        left: elRect.left - navRect.left,
+        width: elRect.width,
+      });
+    }
+  }, [pathname]);
+
+  useEffect(() => {
+    const handle = () => {
+      const activeIndex = linkItems.findIndex((i) => i.href === pathname);
+      const el = linkRefs.current[activeIndex];
+      const navEl = navRef.current;
+      if (el && navEl) {
+        const elRect = el.getBoundingClientRect();
+        const navRect = navEl.getBoundingClientRect();
+        setIndicator({
+          left: elRect.left - navRect.left,
+          width: elRect.width,
+        });
+      }
+    };
+    window.addEventListener("resize", handle);
+    return () => window.removeEventListener("resize", handle);
+  }, [pathname, linkItems]);
 
   // Affichage du statut de chargement
   if (status === "loading") {
     return (
-      <motion.nav 
+      <motion.nav
         className="border-b bg-background/80 backdrop-blur-md"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -68,35 +116,34 @@ export function Navigation() {
           </div>
           <div className="flex flex-1 items-center justify-end space-x-4">
             {/* loading spinner color */}
-            <motion.div 
-              className="h-8 w-8 animate-spin rounded-full border-2 border-muted border-t-[hsl(var(--primary))]"
-            />
+            <motion.div className="h-8 w-8 animate-spin rounded-full border-2 border-muted border-t-[hsl(var(--primary))]" />
           </div>
         </div>
       </motion.nav>
-    )
+    );
   }
 
   return (
-    <motion.nav 
-      className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md"
+    <motion.nav
+      ref={navRef}
+      className="relative sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <div className="container mx-auto flex h-16 items-center px-4">
-        <motion.div 
+        <motion.div
           className="flex items-center"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <Link href="/" className="flex items-center space-x-2">
-            <motion.span 
+            <motion.span
               className="text-3xl font-bold bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(var(--accent))] bg-clip-text text-transparent"
-              whileHover={{ 
+              whileHover={{
                 scale: 1.05,
-                textShadow: "0px 0px 8px hsl(var(--primary) / 0.4)"
+                textShadow: "0px 0px 8px hsl(var(--primary) / 0.4)",
               }}
               transition={{ duration: 0.2 }}
             >
@@ -104,26 +151,21 @@ export function Navigation() {
             </motion.span>
           </Link>
         </motion.div>
-        
-        <motion.div 
+
+        <motion.div
           className="flex flex-1 items-center justify-center space-x-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <motion.div 
+          <motion.div
             className="hidden items-center space-x-8 md:flex"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            {[
-              { href: "/offres", label: "Nos Offres" },
-              { href: "/simulation", label: "Simulation" },
-              { href: "/about", label: "À Propos" },
-              { href: "/contact", label: "Contact" }
-            ].map((item, index) => {
-              const isActive = pathname === item.href
+            {linkItems.map((item, index) => {
+              const isActive = pathname === item.href;
               return (
                 <motion.div
                   key={item.href}
@@ -131,36 +173,31 @@ export function Navigation() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
                 >
-                  <Link 
-                    href={item.href} 
-                    className={`relative text-sm font-medium transition-colors group ${
-                      isActive ? "text-[hsl(var(--primary))]" : "text-muted-foreground hover:text-[hsl(var(--primary))]"
+                  <Link
+                    href={item.href}
+                    ref={(el) => (linkRefs.current[index] = el)}
+                    className={`relative inline-flex justify-center text-sm font-medium transition-colors min-w-[90px] px-1 ${
+                      isActive
+                        ? "text-[hsl(var(--primary))]"
+                        : "text-muted-foreground hover:text-[hsl(var(--primary))]"
                     }`}
                   >
                     {item.label}
-                    <motion.div
-                      className="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(var(--accent))] rounded-full"
-                      initial={{ width: isActive ? "100%" : 0 }}
-                      whileHover={{ width: "100%" }}
-                      animate={{ width: isActive ? "100%" : 0 }}
-                      transition={{ duration: 0.25 }}
-                    />
                   </Link>
                 </motion.div>
-              )
+              );
             })}
           </motion.div>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           className="flex items-center space-x-4"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
         >
-
           {session?.user ? (
-            <motion.div 
+            <motion.div
               className="flex items-center space-x-4"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -173,10 +210,18 @@ export function Navigation() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                    <Button
+                      variant="ghost"
+                      className="relative h-8 w-8 rounded-full"
+                    >
                       <Avatar className="h-8 w-8">
-                        <AvatarImage src={session.user.image || ""} alt={session.user.name || ""} />
-                        <AvatarFallback>{getInitials(session.user.name || "U")}</AvatarFallback>
+                        <AvatarImage
+                          src={session.user.image || ""}
+                          alt={session.user.name || ""}
+                        />
+                        <AvatarFallback>
+                          {getInitials(session.user.name || "U")}
+                        </AvatarFallback>
                       </Avatar>
                     </Button>
                   </motion.div>
@@ -185,7 +230,9 @@ export function Navigation() {
                   <div className="flex items-center justify-start gap-2 p-2">
                     <div className="flex flex-col space-y-1 leading-none">
                       <p className="font-medium">{session.user.name}</p>
-                      <p className="w-[200px] truncate text-sm text-muted-foreground">{session.user.email}</p>
+                      <p className="w-[200px] truncate text-sm text-muted-foreground">
+                        {session.user.email}
+                      </p>
                     </div>
                   </div>
                   <DropdownMenuSeparator />
@@ -211,7 +258,7 @@ export function Navigation() {
               </DropdownMenu>
             </motion.div>
           ) : (
-            <motion.div 
+            <motion.div
               className="flex items-center"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -229,16 +276,13 @@ export function Navigation() {
           )}
 
           {/* Menu mobile */}
-          <motion.div 
+          <motion.div
             className="md:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3, delay: 0.7 }}
           >
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
               <Button
                 variant="ghost"
                 size="sm"
@@ -276,27 +320,22 @@ export function Navigation() {
       {/* Menu mobile ouvert */}
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div 
+          <motion.div
             className="border-t md:hidden"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            <motion.div 
+            <motion.div
               className="space-y-1 px-4 pb-3 pt-2"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2, delay: 0.1 }}
             >
-              {[
-                { href: "/offres", label: "Nos Offres" },
-                { href: "/simulation", label: "Simulation" },
-                { href: "/about", label: "À Propos" },
-                { href: "/contact", label: "Contact" }
-              ].map((item, index) => {
-                const isActive = pathname === item.href
+              {linkItems.map((item, index) => {
+                const isActive = pathname === item.href;
                 return (
                   <motion.div
                     key={item.href}
@@ -317,9 +356,9 @@ export function Navigation() {
                       {item.label}
                     </Link>
                   </motion.div>
-                )
+                );
               })}
-              
+
               {session?.user && (
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
@@ -327,15 +366,23 @@ export function Navigation() {
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.2, delay: 0.2 }}
                 >
-                  <Link href={(session.user as any).role === "ADMIN" ? "/admin" : "/client"}>
+                  <Link
+                    href={
+                      (session.user as any).role === "ADMIN"
+                        ? "/admin"
+                        : "/client"
+                    }
+                  >
                     <Button className="w-full justify-start" variant="ghost">
                       <User className="mr-2 h-4 w-4" />
-                      {(session.user as any).role === "ADMIN" ? "Administration" : "Espace Client"}
+                      {(session.user as any).role === "ADMIN"
+                        ? "Administration"
+                        : "Espace Client"}
                     </Button>
                   </Link>
                 </motion.div>
               )}
-              
+
               {session?.user && (
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
@@ -353,9 +400,9 @@ export function Navigation() {
                   </Button>
                 </motion.div>
               )}
-              
+
               {!session && (
-                <motion.div 
+                <motion.div
                   className="space-y-1"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -363,9 +410,7 @@ export function Navigation() {
                   transition={{ duration: 0.2, delay: 0.2 }}
                 >
                   <Link href="/register">
-                    <Button className="w-full">
-                      Inscription
-                    </Button>
+                    <Button className="w-full">Inscription</Button>
                   </Link>
                 </motion.div>
               )}
@@ -373,6 +418,19 @@ export function Navigation() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Indicateur global (desktop uniquement) */}
+      {indicator.width > 0 && (
+        <motion.div
+          key={pathname}
+          className="pointer-events-none absolute bottom-0 h-[3px] rounded-t bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(var(--accent))] md:block hidden"
+          initial={{ opacity: 0, scaleX: 0, transformOrigin: "left" }}
+          animate={{ opacity: 1, scaleX: 1 }}
+          exit={{ opacity: 0, scaleX: 0 }}
+          transition={{ duration: 0.25 }}
+          style={{ left: indicator.left, width: indicator.width }}
+        />
+      )}
     </motion.nav>
-  )
+  );
 }

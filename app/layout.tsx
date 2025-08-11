@@ -2,13 +2,13 @@ import { AuthProvider } from "@/components/providers/auth-provider";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
-import { Bebas_Neue } from "next/font/google";
+import { Poppins } from "next/font/google";
 import type React from "react";
 import "./globals.css";
 
-const bebasNeue = Bebas_Neue({
-  weight: "400",
+const poppins = Poppins({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -24,7 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body className={bebasNeue.className}>
+      <body className={poppins.className}>
         <AuthProvider>
           <ThemeProvider
             attribute="class"

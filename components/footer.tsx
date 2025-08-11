@@ -1,16 +1,16 @@
-import Link from "next/link";
-import {
-  Mail,
-  Phone,
-  Facebook,
-  Twitter,
-  Linkedin,
-  Instagram,
-  MapIcon,
-} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
+import {
+  Facebook,
+  Instagram,
+  Linkedin,
+  Mail,
+  MapIcon,
+  Phone,
+  Twitter,
+} from "lucide-react";
+import Link from "next/link";
 
 export function Footer() {
   return (
