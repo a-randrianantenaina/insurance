@@ -124,8 +124,21 @@ export default function HomePage() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="relative py-20 lg:py-32 bg-gradient-to-br from-primary/5 via-background to-secondary/5 overflow-hidden">
-        <div className="container mx-auto px-4">
+      <section className="relative py-20 lg:py-32 overflow-hidden">
+        {/* Background image (z-0) */}
+        <div
+          className="absolute inset-0 z-0 bg-center bg-cover"
+          style={{
+            backgroundImage:
+              "url('/images/img-hero.png'), linear-gradient(120deg, hsl(var(--background)/0.3), hsl(var(--background)/0.55))",
+            backgroundBlendMode: "overlay",
+          }}
+        />
+        {/* Accent soft shapes overlay */}
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-50 mix-blend-soft-light bg-[radial-gradient(at_30%_40%,hsl(var(--primary)/0.35),transparent_60%),radial-gradient(at_70%_70%,hsl(var(--accent)/0.35),transparent_65%)]" />
+        {/* Darkening overlay */}
+        <div className="absolute inset-0 z-[1] bg-black/45 md:bg-black/55 backdrop-brightness-90" />
+        <div className="container mx-auto px-4 relative z-10">
           <motion.div
             className="max-w-4xl mx-auto text-center space-y-8"
             initial={{ opacity: 0, y: 50 }}
@@ -133,7 +146,7 @@ export default function HomePage() {
             transition={{ duration: 0.8 }}
           >
             <motion.h1
-              className="text-4xl lg:text-6xl font-bold tracking-tight"
+              className="text-4xl lg:text-6xl font-bold  text-white tracking-tight"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8 }}
@@ -144,7 +157,7 @@ export default function HomePage() {
             </motion.h1>
 
             <motion.p
-              className="text-xl text-muted-foreground max-w-2xl mx-auto"
+              className="text-xl text-muted-foreground text-white max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}

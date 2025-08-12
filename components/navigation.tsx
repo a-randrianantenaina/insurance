@@ -183,7 +183,9 @@ export function Navigation() {
                 >
                   <Link
                     href={item.href}
-                    ref={(el) => (linkRefs.current[index] = el)}
+                    ref={(el) => {
+                      linkRefs.current[index] = el;
+                    }}
                     className={`relative inline-flex justify-center text-sm font-medium transition-colors min-w-[90px] px-1 ${
                       isActive
                         ? "text-[hsl(var(--primary))]"
