@@ -234,8 +234,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* Pricing Plans */}
       <section id="tarifs" className="py-16">
         <div className="container mx-auto px-4">
           <motion.div

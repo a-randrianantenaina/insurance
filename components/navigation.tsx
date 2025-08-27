@@ -132,60 +132,46 @@ export function Navigation() {
   }
 
   return (
-    <motion.nav
+    <nav
       ref={navRef}
-      className="relative sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md"
-      initial={initialAnim({ y: -100 })}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md"
+      //initial={initialAnim({ y: -100 })}
+      //animate={{ y: 0 }}
+     // transition={{ duration: 0.5, ease: "easeOut" }}
+      aria-label="Navigation principale"
+      role="navigation"
     >
       <div className="container mx-auto flex h-16 items-center px-4">
-        <motion.div
+        <div
           className="flex items-center"
-          initial={initialAnim({ opacity: 0, x: -20 })}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
         >
           <Link href="/" className="flex items-center space-x-2">
-            <motion.span
+            <span
               className="text-3xl font-bold bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(var(--accent))] bg-clip-text text-transparent"
-              whileHover={{
-                scale: 1.05,
-                textShadow: "0px 0px 8px hsl(var(--primary) / 0.4)",
-              }}
-              transition={{ duration: 0.2 }}
             >
               Assuréo
-            </motion.span>
+            </span>
           </Link>
-        </motion.div>
+        </div>
 
-        <motion.div
+        <div
           className="flex flex-1 items-center justify-center space-x-4"
-          initial={initialAnim({ opacity: 0 })}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <motion.div
+          <div
             className="hidden items-center space-x-8 md:flex"
-            initial={initialAnim({ opacity: 0 })}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
           >
             {linkItems.map((item, index) => {
               const isActive = pathname === item.href;
               return (
-                <motion.div
+                <div
                   key={item.href}
-                  initial={initialAnim({ opacity: 0, y: -10 })}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
                 >
                   <Link
                     href={item.href}
                     ref={(el) => {
                       linkRefs.current[index] = el;
                     }}
+                    aria-current={isActive ? "page" : undefined}
                     className={`relative inline-flex justify-center text-sm font-medium transition-colors min-w-[90px] px-1 ${
                       isActive
                         ? "text-[hsl(var(--primary))]"
@@ -194,31 +180,24 @@ export function Navigation() {
                   >
                     {item.label}
                   </Link>
-                </motion.div>
+                </div>
               );
             })}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
-        <motion.div
+        <div
           className="flex items-center space-x-4"
-          initial={initialAnim({ opacity: 0, x: 20 })}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
         >
           {session?.user ? (
-            <motion.div
+            <div
               className="flex items-center space-x-4"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: 0.6 }}
             >
               <NotificationCenter />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <motion.div
                     whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
                   >
                     <Button
                       variant="ghost"
@@ -266,23 +245,15 @@ export function Navigation() {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-            </motion.div>
+            </div>
           ) : (
-            <motion.div
+            <div
               className="flex items-center"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3, delay: 0.6 }}
             >
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
                 <Button asChild>
                   <Link href="/register">Inscription</Link>
                 </Button>
-              </motion.div>
-            </motion.div>
+            </div>
           )}
 
           {/* Menu mobile */}
@@ -292,11 +263,14 @@ export function Navigation() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3, delay: 0.7 }}
           >
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+            <motion.div whileHover={{ scale: 1.1 }}>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-expanded={isMenuOpen}
+                aria-controls="mobile-menu"
+                aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
               >
                 <AnimatePresence mode="wait">
                   {isMenuOpen ? (
@@ -324,13 +298,14 @@ export function Navigation() {
               </Button>
             </motion.div>
           </motion.div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Menu mobile ouvert */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
+            id="mobile-menu"
             className="border-t md:hidden"
             initial={{ opacity: 0, height: 0 }} // conserve animations d'ouverture du menu (interaction volontaire)
             animate={{ opacity: 1, height: "auto" }}
@@ -441,6 +416,6 @@ export function Navigation() {
           style={{ left: indicator.left, width: indicator.width }}
         />
       )}
-    </motion.nav>
+    </nav>
   );
 }

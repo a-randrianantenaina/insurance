@@ -62,7 +62,6 @@
 @layer base {
   * {
     @apply border-border;
-    text-transform: uppercase
   }
   body {
     @apply bg-background text-foreground;
