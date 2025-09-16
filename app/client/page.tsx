@@ -438,7 +438,7 @@ export default function ClientPage() {
                           <motion.div
                             key={message.id}
                             className={`p-4 border rounded-lg ${
-                              message.status === "UNREAD" ? "bg-blue-50 border-blue-200" : ""
+                              message.status === "UNREAD" ? "bg-primary/10 border-primary/20" : ""
                             }`}
                             variants={itemVariants}
                             whileHover={{ scale: 1.01 }}

@@ -78,7 +78,7 @@ export function NotificationCenter() {
   const getNotificationIcon = (type: string) => {
     switch (type) {
       case "MESSAGE":
-        return <MessageSquare className="h-4 w-4 text-blue-500" />
+        return <MessageSquare className="h-4 w-4 text-primary" />
       case "PAYMENT":
         return <CreditCard className="h-4 w-4 text-green-500" />
       case "CONTRACT":
@@ -142,7 +142,7 @@ export function NotificationCenter() {
                     <div
                       key={notification.id}
                       className={`p-3 hover:bg-muted/50 cursor-pointer border-b last:border-b-0 ${
-                        !notification.isRead ? "bg-blue-50/50" : ""
+                        !notification.isRead ? "bg-primary/10" : ""
                       }`}
                       onClick={() => {
                         markAsRead(notification.id)
@@ -176,7 +176,7 @@ export function NotificationCenter() {
                           <p className="text-xs text-muted-foreground mt-1">{formatDate(notification.createdAt)}</p>
                         </div>
                         {!notification.isRead && (
-                          <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 mt-2" />
+                          <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0 mt-2" />
                         )}
                       </div>
                     </div>

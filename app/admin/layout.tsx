@@ -73,7 +73,7 @@ export default function AdminLayout({
             <Shield className="h-5 w-5 text-primary-foreground" />
           </div>
           <div>
-            <h2 className="text-xl font-bold">Admin</h2>
+            <h2 className="text-xl font-bold text-primary">Admin</h2>
             <p className="text-sm text-muted-foreground">Assuréo</p>
           </div>
         </Link>

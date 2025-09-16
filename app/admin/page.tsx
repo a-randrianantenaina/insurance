@@ -46,7 +46,7 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <h1 className="text-3xl font-bold text-primary">Dashboard</h1>
         <p className="text-muted-foreground">Vue d'ensemble de votre plateforme d'assurance</p>
       </div>
 
@@ -114,7 +114,7 @@ export default function AdminDashboard() {
                         ? "bg-green-500"
                         : activity.status === "error"
                           ? "bg-red-500"
-                          : "bg-blue-500"
+                          : "bg-primary"
                     }`}
                   />
                   <div className="flex-1 min-w-0">
@@ -150,8 +150,8 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              <div className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
-                <FileText className="h-5 w-5 text-blue-600" />
+              <div className="flex items-center space-x-3 p-3 bg-primary/10 rounded-lg">
+                <FileText className="h-5 w-5 text-primary" />
                 <div>
                   <p className="text-sm font-medium">15 contrats à renouveler</p>
                   <p className="text-xs text-muted-foreground">Dans les 30 prochains jours</p>

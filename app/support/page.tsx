@@ -27,7 +27,7 @@ const supportCategories = [
     title: "Gestion des contrats",
     description: "Modification, résiliation, renouvellement",
     articles: 12,
-    color: "bg-blue-100 text-blue-600",
+    color: "bg-primary/10 text-primary",
   },
   {
     icon: Shield,
@@ -299,8 +299,8 @@ export default function SupportPage() {
 
               <Card>
                 <CardHeader className="text-center">
-                  <div className="mx-auto w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                    <Phone className="h-6 w-6 text-blue-600" />
+                  <div className="mx-auto w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                    <Phone className="h-6 w-6 text-primary" />
                   </div>
                   <CardTitle>Téléphone</CardTitle>
                   <CardDescription>Appelez-nous pour une assistance directe</CardDescription>
